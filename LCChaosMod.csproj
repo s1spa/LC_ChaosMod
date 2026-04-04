@@ -1,0 +1,65 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>LCChaosMod</AssemblyName>
+    <RootNamespace>LCChaosMod</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GM>D:\Games\steam1\steamapps\common\Lethal Company\Lethal Company_Data\Managed</GM>
+    <BX>C:\Users\s1sp\AppData\Roaming\Thunderstore Mod Manager\DataFolder\LethalCompany\cache\BepInEx-BepInExPack\5.4.2305\BepInExPack\BepInEx\core</BX>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- BepInEx -->
+    <Reference Include="BepInEx">         <HintPath>$(BX)\BepInEx.dll</HintPath>         <Private>false</Private> </Reference>
+    <Reference Include="0Harmony">        <HintPath>$(BX)\0Harmony.dll</HintPath>        <Private>false</Private> </Reference>
+
+    <!-- Game assemblies -->
+    <Reference Include="Assembly-CSharp-firstpass"> <HintPath>$(GM)\Assembly-CSharp-firstpass.dll</HintPath> <Private>false</Private> </Reference>
+    <Reference Include="Assembly-CSharp">           <HintPath>$(GM)\Assembly-CSharp.dll</HintPath>           <Private>false</Private> </Reference>
+
+    <!-- UnityEngine modules -->
+    <Reference Include="UnityEngine">               <HintPath>$(GM)\UnityEngine.dll</HintPath>               <Private>false</Private> </Reference>
+    <Reference Include="UnityEngine.CoreModule">    <HintPath>$(GM)\UnityEngine.CoreModule.dll</HintPath>    <Private>false</Private> </Reference>
+    <Reference Include="UnityEngine.UI">            <HintPath>$(GM)\UnityEngine.UI.dll</HintPath>            <Private>false</Private> </Reference>
+    <Reference Include="UnityEngine.UIModule">      <HintPath>$(GM)\UnityEngine.UIModule.dll</HintPath>      <Private>false</Private> </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">   <HintPath>$(GM)\UnityEngine.IMGUIModule.dll</HintPath>   <Private>false</Private> </Reference>
+    <Reference Include="UnityEngine.PhysicsModule"> <HintPath>$(GM)\UnityEngine.PhysicsModule.dll</HintPath> <Private>false</Private> </Reference>
+    <Reference Include="UnityEngine.Physics2DModule"><HintPath>$(GM)\UnityEngine.Physics2DModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.AnimationModule"><HintPath>$(GM)\UnityEngine.AnimationModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.AudioModule">   <HintPath>$(GM)\UnityEngine.AudioModule.dll</HintPath>   <Private>false</Private> </Reference>
+    <Reference Include="UnityEngine.AIModule">      <HintPath>$(GM)\UnityEngine.AIModule.dll</HintPath>      <Private>false</Private> </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule"><HintPath>$(GM)\UnityEngine.InputLegacyModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule"><HintPath>$(GM)\UnityEngine.ParticleSystemModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.GridModule">    <HintPath>$(GM)\UnityEngine.GridModule.dll</HintPath>    <Private>false</Private> </Reference>
+    <Reference Include="UnityEngine.TerrainModule"> <HintPath>$(GM)\UnityEngine.TerrainModule.dll</HintPath> <Private>false</Private> </Reference>
+
+    <!-- Unity packages -->
+    <Reference Include="Unity.Netcode.Runtime">     <HintPath>$(GM)\Unity.Netcode.Runtime.dll</HintPath>     <Private>false</Private> </Reference>
+    <Reference Include="Unity.Netcode.Components">  <HintPath>$(GM)\Unity.Netcode.Components.dll</HintPath>  <Private>false</Private> </Reference>
+    <Reference Include="Unity.TextMeshPro">         <HintPath>$(GM)\Unity.TextMeshPro.dll</HintPath>         <Private>false</Private> </Reference>
+    <Reference Include="Unity.InputSystem">         <HintPath>$(GM)\Unity.InputSystem.dll</HintPath>         <Private>false</Private> </Reference>
+    <Reference Include="Unity.Collections">         <HintPath>$(GM)\Unity.Collections.dll</HintPath>         <Private>false</Private> </Reference>
+    <Reference Include="Unity.AI.Navigation">       <HintPath>$(GM)\Unity.AI.Navigation.dll</HintPath>       <Private>false</Private> </Reference>
+    <Reference Include="Unity.RenderPipelines.Core.Runtime"><HintPath>$(GM)\Unity.RenderPipelines.Core.Runtime.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Unity.RenderPipelines.HighDefinition.Runtime"><HintPath>$(GM)\Unity.RenderPipelines.HighDefinition.Runtime.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Unity.Animation.Rigging">   <HintPath>$(GM)\Unity.Animation.Rigging.dll</HintPath>   <Private>false</Private> </Reference>
+
+    <!-- Third-party -->
+    <Reference Include="DissonanceVoip">            <HintPath>$(GM)\DissonanceVoip.dll</HintPath>            <Private>false</Private> </Reference>
+    <Reference Include="ClientNetworkTransform">    <HintPath>$(GM)\ClientNetworkTransform.dll</HintPath>    <Private>false</Private> </Reference>
+    <Reference Include="Facepunch.Steamworks.Win64"><HintPath>$(GM)\Facepunch.Steamworks.Win64.dll</HintPath><Private>false</Private> </Reference>
+    <Reference Include="Facepunch Transport for Netcode for GameObjects"><HintPath>$(GM)\Facepunch Transport for Netcode for GameObjects.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+
+  <!-- Auto-deploy after build -->
+  <Target Name="DeployToBepInEx" AfterTargets="Build">
+    <Copy SourceFiles="$(TargetPath)"
+          DestinationFolder="C:\Users\s1sp\AppData\Roaming\Thunderstore Mod Manager\DataFolder\LethalCompany\profiles\Piazda\BepInEx\plugins\LCChaosMod\"
+          OverwriteReadOnlyFiles="true" />
+    <Message Text="[LCChaosMod] Deployed to BepInEx plugins." Importance="high" />
+  </Target>
+
+</Project>

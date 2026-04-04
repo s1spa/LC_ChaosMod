@@ -1,0 +1,21 @@
+# Build output
+bin/
+obj/
+
+# IDE / OS
+.idea/
+.vscode/
+*.user
+.vs/
+Thumbs.db
+desktop.ini
+
+# Notes / personal files
+Ідеї
+
+# NuGet
+*.nupkg
+packages/
+
+# Logs
+*.log
