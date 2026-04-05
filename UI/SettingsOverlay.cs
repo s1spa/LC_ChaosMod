@@ -26,6 +26,10 @@ namespace LCChaosMod.UI
         private float _turretRateMin;
         private float _turretRateMax;
 
+        private bool  _evtMob;
+        private bool  _evtTeleportDungeon;
+        private bool  _evtTeleportShip;
+
         // яка подія зараз розгорнута (-1 = жодна)
         private int   _expandedEvt = -1;
 
@@ -149,6 +153,13 @@ namespace LCChaosMod.UI
                 GUILayout.Space(2);
                 SliderRow(Loc.Get("ui.turret_rate_max"), ref _turretRateMax, 0.5f, 10f);
             }
+
+            GUILayout.Space(4);
+            DrawEventRow(2, Loc.Get("event.mob"), ref _evtMob);
+            GUILayout.Space(4);
+            DrawEventRow(3, Loc.Get("event.teleport_dungeon"), ref _evtTeleportDungeon);
+            GUILayout.Space(4);
+            DrawEventRow(4, Loc.Get("event.teleport_ship"), ref _evtTeleportShip);
 
             GUILayout.Space(8);
 
@@ -368,6 +379,9 @@ namespace LCChaosMod.UI
             _mineRateMin  = ChaosSettings.MineRateMin.Value;
             _mineRateMax  = ChaosSettings.MineRateMax.Value;
 
+            _evtMob              = ChaosSettings.EnableMobSpawn.Value;
+            _evtTeleportDungeon  = ChaosSettings.EnableTeleportDungeon.Value;
+            _evtTeleportShip     = ChaosSettings.EnableTeleportShip.Value;
             _evtTurrets     = ChaosSettings.EnableTurrets.Value;
             _turretCountMin = ChaosSettings.TurretCountMin.Value;
             _turretCountMax = ChaosSettings.TurretCountMax.Value;
@@ -388,6 +402,9 @@ namespace LCChaosMod.UI
             ChaosSettings.MineRateMin.Value  = _mineRateMin;
             ChaosSettings.MineRateMax.Value  = _mineRateMax;
 
+            ChaosSettings.EnableMobSpawn.Value        = _evtMob;
+            ChaosSettings.EnableTeleportDungeon.Value = _evtTeleportDungeon;
+            ChaosSettings.EnableTeleportShip.Value    = _evtTeleportShip;
             ChaosSettings.EnableTurrets.Value  = _evtTurrets;
             ChaosSettings.TurretCountMin.Value = _turretCountMin;
             ChaosSettings.TurretCountMax.Value = _turretCountMax;
