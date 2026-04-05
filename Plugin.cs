@@ -19,6 +19,7 @@ namespace LCChaosMod
 
             // Реєструємо локалізацію кожного Cog
             Cogs.MineSpawner.Lang.Init();
+            Cogs.TurretSpawner.Lang.Init();
 
             ChaosSettings.Init(Config);
             _harmony.PatchAll();

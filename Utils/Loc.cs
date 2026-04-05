@@ -24,6 +24,8 @@ namespace LCChaosMod
             ["ui.save"]         = T("SAVE & CLOSE",           "ЗБЕРЕГТИ"),
             ["ui.cancel"]       = T("CANCEL",                 "СКАСУВАТИ"),
             ["ui.events"]       = T("Events",                 "Події"),
+            ["ui.enabled"]      = T("Enabled",               "Увімкнено"),
+            ["ui.disabled"]     = T("Disabled",              "Вимкнено"),
         };
 
         private static Dictionary<string, string> T(string en, string ua) =>

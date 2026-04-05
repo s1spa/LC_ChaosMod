@@ -25,6 +25,7 @@ namespace LCChaosMod
         private void Start()
         {
             _events.Add(new Cogs.MineSpawnEvent());
+            _events.Add(new Cogs.TurretSpawnEvent());
             Plugin.Log.LogInfo($"[EventManager] Start() — {_events.Count} events registered.");
 
             if (_events.Count == 0)

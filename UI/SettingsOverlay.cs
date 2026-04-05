@@ -20,6 +20,12 @@ namespace LCChaosMod.UI
         private float _mineRateMin;
         private float _mineRateMax;
 
+        private bool  _evtTurrets;
+        private int   _turretCountMin;
+        private int   _turretCountMax;
+        private float _turretRateMin;
+        private float _turretRateMax;
+
         // яка подія зараз розгорнута (-1 = жодна)
         private int   _expandedEvt = -1;
 
@@ -130,6 +136,20 @@ namespace LCChaosMod.UI
                 SliderRow(Loc.Get("ui.mine_rate_max"), ref _mineRateMax, 0.5f, 10f);
             }
 
+            GUILayout.Space(4);
+            DrawEventRow(1, Loc.Get("event.turrets"), ref _evtTurrets);
+            if (_expandedEvt == 1)
+            {
+                GUILayout.Space(4);
+                IntSliderRow(Loc.Get("ui.turret_count_min"), ref _turretCountMin, 1, 10);
+                GUILayout.Space(2);
+                IntSliderRow(Loc.Get("ui.turret_count_max"), ref _turretCountMax, 1, 10);
+                GUILayout.Space(2);
+                SliderRow(Loc.Get("ui.turret_rate_min"), ref _turretRateMin, 0.5f, 10f);
+                GUILayout.Space(2);
+                SliderRow(Loc.Get("ui.turret_rate_max"), ref _turretRateMax, 0.5f, 10f);
+            }
+
             GUILayout.Space(8);
 
             // ── Absolute bottom: Save, Cancel, BIOS, Company ────
@@ -156,25 +176,30 @@ namespace LCChaosMod.UI
         private void DrawEventRow(int idx, string label, ref bool enabled)
         {
             bool expanded = _expandedEvt == idx;
+
+            // Хедер — тільки розгортання/згортання
             GUILayout.BeginHorizontal();
             GUILayout.Space(40f);
-
-            // Назва події — кнопка розгортання
             var headerStyle = expanded ? _sBtnOn! : _sBtnOff!;
             string arrow = expanded ? "▼" : "▶";
             if (GUILayout.Button($"{arrow}  {label}", headerStyle, GUILayout.Width(260)))
                 _expandedEvt = expanded ? -1 : idx;
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
 
+            // Тогл — окремий рядок всередині розгорнутого блоку
             if (expanded)
             {
-                GUILayout.Space(10);
+                GUILayout.Space(4);
+                GUILayout.BeginHorizontal();
+                GUILayout.Space(60f);
+                GUILayout.Label(enabled ? Loc.Get("ui.enabled") : Loc.Get("ui.disabled"), _sLbl!, GUILayout.Width(80));
                 var togStyle = enabled ? _sBtnOn! : _sBtnOff!;
                 if (GUILayout.Button(enabled ? "[ON]" : "[OFF]", togStyle, GUILayout.Width(60)))
                     enabled = !enabled;
+                GUILayout.FlexibleSpace();
+                GUILayout.EndHorizontal();
             }
-
-            GUILayout.FlexibleSpace();
-            GUILayout.EndHorizontal();
         }
 
         // ── Горизонтальна лінія ──────────────────────────────────
@@ -342,6 +367,12 @@ namespace LCChaosMod.UI
             _mineCountMax = ChaosSettings.MineCountMax.Value;
             _mineRateMin  = ChaosSettings.MineRateMin.Value;
             _mineRateMax  = ChaosSettings.MineRateMax.Value;
+
+            _evtTurrets     = ChaosSettings.EnableTurrets.Value;
+            _turretCountMin = ChaosSettings.TurretCountMin.Value;
+            _turretCountMax = ChaosSettings.TurretCountMax.Value;
+            _turretRateMin  = ChaosSettings.TurretRateMin.Value;
+            _turretRateMax  = ChaosSettings.TurretRateMax.Value;
         }
 
         private void SaveToConfig()
@@ -356,6 +387,12 @@ namespace LCChaosMod.UI
             ChaosSettings.MineCountMax.Value = _mineCountMax;
             ChaosSettings.MineRateMin.Value  = _mineRateMin;
             ChaosSettings.MineRateMax.Value  = _mineRateMax;
+
+            ChaosSettings.EnableTurrets.Value  = _evtTurrets;
+            ChaosSettings.TurretCountMin.Value = _turretCountMin;
+            ChaosSettings.TurretCountMax.Value = _turretCountMax;
+            ChaosSettings.TurretRateMin.Value  = _turretRateMin;
+            ChaosSettings.TurretRateMax.Value  = _turretRateMax;
         }
     }
 }

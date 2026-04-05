@@ -21,6 +21,12 @@ namespace LCChaosMod
         public static ConfigEntry<float> MineRateMin  { get; private set; } = null!;
         public static ConfigEntry<float> MineRateMax  { get; private set; } = null!;
 
+        // Turrets — налаштування евенту
+        public static ConfigEntry<int>   TurretCountMin { get; private set; } = null!;
+        public static ConfigEntry<int>   TurretCountMax { get; private set; } = null!;
+        public static ConfigEntry<float> TurretRateMin  { get; private set; } = null!;
+        public static ConfigEntry<float> TurretRateMax  { get; private set; } = null!;
+
         // Які евенти увімкнені
         public static ConfigEntry<bool> EnableMines { get; private set; } = null!;
         public static ConfigEntry<bool> EnableTurrets { get; private set; } = null!;
@@ -44,6 +50,11 @@ namespace LCChaosMod
             MineCountMax = config.Bind("Mines", "CountMax", 10,   "Максимальна кількість мін за евент");
             MineRateMin  = config.Bind("Mines", "RateMin",  1f,   "Мінімальний інтервал між мінами (с)");
             MineRateMax  = config.Bind("Mines", "RateMax",  3f,   "Максимальний інтервал між мінами (с)");
+
+            TurretCountMin = config.Bind("Turrets", "CountMin", 2,   "Мінімальна кількість турелей за евент");
+            TurretCountMax = config.Bind("Turrets", "CountMax", 5,   "Максимальна кількість турелей за евент");
+            TurretRateMin  = config.Bind("Turrets", "RateMin",  1f,  "Мінімальний інтервал між турелями (с)");
+            TurretRateMax  = config.Bind("Turrets", "RateMax",  3f,  "Максимальний інтервал між турелями (с)");
 
             EnableMines = config.Bind("Events", "Mines", true, "Міни під ногами");
             EnableTurrets = config.Bind("Events", "Turrets", true, "Турелі навколо");
