@@ -1,3 +1,4 @@
+using System.Collections;
 using GameNetcodeStuff;
 using Unity.Collections;
 using Unity.Netcode;
@@ -14,6 +15,7 @@ namespace LCChaosMod
         private const string MsgWarning  = "LCChaosMod_Warning";
         private const string MsgTeleport = "LCChaosMod_Teleport";
         private const string MsgSound    = "LCChaosMod_Sound";
+        private const string MsgStamina  = "LCChaosMod_Stamina";
 
         public static void Init()
         {
@@ -21,6 +23,7 @@ namespace LCChaosMod
             mgr.RegisterNamedMessageHandler(MsgWarning,  OnReceiveWarning);
             mgr.RegisterNamedMessageHandler(MsgTeleport, OnReceiveTeleport);
             mgr.RegisterNamedMessageHandler(MsgSound,    OnReceiveSound);
+            mgr.RegisterNamedMessageHandler(MsgStamina,  OnReceiveStamina);
             Plugin.Log.LogInfo("[ChaosNetworkHandler] Handlers registered.");
         }
 
@@ -153,6 +156,44 @@ namespace LCChaosMod
                 }
             }
             Plugin.Log.LogWarning($"[ChaosNetworkHandler] Clip '{clipName}' not found locally.");
+        }
+
+        // ── Stamina ───────────────────────────────────────────────────────────
+
+        /// <summary>Host: apply infinite stamina locally and broadcast to all clients.</summary>
+        public static void BroadcastStamina(float duration)
+        {
+            GameNetworkManager.Instance.StartCoroutine(StaminaCoroutine(duration));
+
+            var writer = new FastBufferWriter(8, Allocator.Temp);
+            using (writer)
+            {
+                writer.WriteValueSafe(duration);
+                NetworkManager.Singleton.CustomMessagingManager
+                    .SendNamedMessageToAll(MsgStamina, writer);
+            }
+        }
+
+        private static void OnReceiveStamina(ulong _, FastBufferReader reader)
+        {
+            if (NetworkManager.Singleton.IsServer) return;
+            reader.ReadValueSafe(out float duration);
+            GameNetworkManager.Instance.StartCoroutine(StaminaCoroutine(duration));
+        }
+
+        private static IEnumerator StaminaCoroutine(float duration)
+        {
+            float elapsed = 0f;
+            var player = GameNetworkManager.Instance?.localPlayerController;
+            if (player == null) yield break;
+
+            Plugin.Log.LogInfo($"[ChaosNetworkHandler] Infinite stamina for {duration}s.");
+            while (elapsed < duration)
+            {
+                player.sprintMeter = 1f;
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
         }
     }
 }

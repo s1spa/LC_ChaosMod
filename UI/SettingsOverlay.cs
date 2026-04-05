@@ -30,6 +30,10 @@ namespace LCChaosMod.UI
         private bool  _evtTeleportDungeon;
         private bool  _evtTeleportShip;
         private bool  _evtRandomSound;
+        private bool  _evtInfiniteStamina;
+        private float _staminaDuration;
+
+        private Vector2 _evtScroll;
 
         // яка подія зараз розгорнута (-1 = жодна)
         private int   _expandedEvt = -1;
@@ -63,7 +67,7 @@ namespace LCChaosMod.UI
         {
             LoadFromConfig();
             _visible = true;
-            _winRect = new Rect(Screen.width / 2f - 420f, Screen.height / 2f - 230f, 840f, 460f);
+            _winRect = new Rect(Screen.width / 2f - 420f, Screen.height / 2f - 270f, 840f, 540f);
             Cursor.visible   = true;
             Cursor.lockState = CursorLockMode.None;
         }
@@ -128,6 +132,8 @@ namespace LCChaosMod.UI
             GUILayout.EndHorizontal();
 
             GUILayout.Space(4);
+            _evtScroll = GUILayout.BeginScrollView(_evtScroll, GUILayout.Height(260f));
+
             DrawEventRow(0, Loc.Get("event.mines"), ref _evtMines);
             if (_expandedEvt == 0)
             {
@@ -163,8 +169,18 @@ namespace LCChaosMod.UI
             DrawEventRow(4, Loc.Get("event.teleport_ship"), ref _evtTeleportShip);
             GUILayout.Space(4);
             DrawEventRow(5, Loc.Get("event.random_sound"), ref _evtRandomSound);
+            GUILayout.Space(4);
+            DrawEventRow(6, Loc.Get("event.infinite_stamina"), ref _evtInfiniteStamina);
+            if (_expandedEvt == 6)
+            {
+                GUILayout.Space(4);
+                SliderRow(Loc.Get("ui.stamina_duration"), ref _staminaDuration, 5f, 120f);
+            }
 
-            GUILayout.Space(8);
+            GUILayout.Space(4);
+            GUILayout.EndScrollView();
+
+            GUILayout.Space(4);
 
             // ── Absolute bottom: Save, Cancel, BIOS, Company ────
             float btnY    = H - 36f;
@@ -385,7 +401,9 @@ namespace LCChaosMod.UI
             _evtMob              = ChaosSettings.EnableMobSpawn.Value;
             _evtTeleportDungeon  = ChaosSettings.EnableTeleportDungeon.Value;
             _evtTeleportShip     = ChaosSettings.EnableTeleportShip.Value;
-            _evtRandomSound      = ChaosSettings.EnableRandomSound.Value;
+            _evtRandomSound       = ChaosSettings.EnableRandomSound.Value;
+            _evtInfiniteStamina   = ChaosSettings.EnableInfiniteStamina.Value;
+            _staminaDuration      = ChaosSettings.StaminaDuration.Value;
             _evtTurrets     = ChaosSettings.EnableTurrets.Value;
             _turretCountMin = ChaosSettings.TurretCountMin.Value;
             _turretCountMax = ChaosSettings.TurretCountMax.Value;
@@ -410,6 +428,8 @@ namespace LCChaosMod.UI
             ChaosSettings.EnableTeleportDungeon.Value = _evtTeleportDungeon;
             ChaosSettings.EnableTeleportShip.Value    = _evtTeleportShip;
             ChaosSettings.EnableRandomSound.Value     = _evtRandomSound;
+            ChaosSettings.EnableInfiniteStamina.Value = _evtInfiniteStamina;
+            ChaosSettings.StaminaDuration.Value       = _staminaDuration;
             ChaosSettings.EnableTurrets.Value  = _evtTurrets;
             ChaosSettings.TurretCountMin.Value = _turretCountMin;
             ChaosSettings.TurretCountMax.Value = _turretCountMax;

@@ -36,6 +36,8 @@ namespace LCChaosMod
         public static ConfigEntry<bool> EnablePlayerSwap { get; private set; } = null!;
         public static ConfigEntry<bool> EnableGlowstick   { get; private set; } = null!;
         public static ConfigEntry<bool> EnableRandomSound { get; private set; } = null!;
+        public static ConfigEntry<bool>  EnableInfiniteStamina { get; private set; } = null!;
+        public static ConfigEntry<float> StaminaDuration       { get; private set; } = null!;
 
         public static void Init(ConfigFile config)
         {
@@ -64,7 +66,9 @@ namespace LCChaosMod
             EnableTeleportShip = config.Bind("Events", "TeleportShip", true, "Телепортація на корабель");
             EnablePlayerSwap = config.Bind("Events", "PlayerSwap", true, "Підміна гравців місцями");
             EnableGlowstick   = config.Bind("Events", "Glowstick",    true, "Світіння при підйомі Apparatus");
-            EnableRandomSound = config.Bind("Events", "RandomSound",  true, "Рандомний звук моба поруч");
+            EnableRandomSound     = config.Bind("Events", "RandomSound",     true, "Рандомний звук моба поруч");
+            EnableInfiniteStamina = config.Bind("Events", "InfiniteStamina",   true,  "Нескінченна витривалість");
+            StaminaDuration       = config.Bind("Events", "StaminaDuration",   10f,   "Тривалість нескінченної витривалості (секунди)");
         }
     }
 }

@@ -30,6 +30,7 @@ namespace LCChaosMod
             _events.Add(new Cogs.TeleportDungeonEvent());
             _events.Add(new Cogs.TeleportShipEvent());
             _events.Add(new Cogs.RandomSoundEvent());
+            _events.Add(new Cogs.InfiniteStaminaEvent());
             Plugin.Log.LogInfo($"[EventManager] Start() — {_events.Count} events registered.");
 
             if (_events.Count == 0)

@@ -24,6 +24,7 @@ namespace LCChaosMod
             Cogs.TeleportDungeon.Lang.Init();
             Cogs.TeleportShip.Lang.Init();
             Cogs.RandomSound.Lang.Init();
+            Cogs.InfiniteStamina.Lang.Init();
 
             ChaosSettings.Init(Config);
             _harmony.PatchAll();
