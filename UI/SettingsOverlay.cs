@@ -29,6 +29,7 @@ namespace LCChaosMod.UI
         private bool  _evtMob;
         private bool  _evtTeleportDungeon;
         private bool  _evtTeleportShip;
+        private bool  _evtRandomSound;
 
         // яка подія зараз розгорнута (-1 = жодна)
         private int   _expandedEvt = -1;
@@ -160,6 +161,8 @@ namespace LCChaosMod.UI
             DrawEventRow(3, Loc.Get("event.teleport_dungeon"), ref _evtTeleportDungeon);
             GUILayout.Space(4);
             DrawEventRow(4, Loc.Get("event.teleport_ship"), ref _evtTeleportShip);
+            GUILayout.Space(4);
+            DrawEventRow(5, Loc.Get("event.random_sound"), ref _evtRandomSound);
 
             GUILayout.Space(8);
 
@@ -382,6 +385,7 @@ namespace LCChaosMod.UI
             _evtMob              = ChaosSettings.EnableMobSpawn.Value;
             _evtTeleportDungeon  = ChaosSettings.EnableTeleportDungeon.Value;
             _evtTeleportShip     = ChaosSettings.EnableTeleportShip.Value;
+            _evtRandomSound      = ChaosSettings.EnableRandomSound.Value;
             _evtTurrets     = ChaosSettings.EnableTurrets.Value;
             _turretCountMin = ChaosSettings.TurretCountMin.Value;
             _turretCountMax = ChaosSettings.TurretCountMax.Value;
@@ -405,6 +409,7 @@ namespace LCChaosMod.UI
             ChaosSettings.EnableMobSpawn.Value        = _evtMob;
             ChaosSettings.EnableTeleportDungeon.Value = _evtTeleportDungeon;
             ChaosSettings.EnableTeleportShip.Value    = _evtTeleportShip;
+            ChaosSettings.EnableRandomSound.Value     = _evtRandomSound;
             ChaosSettings.EnableTurrets.Value  = _evtTurrets;
             ChaosSettings.TurretCountMin.Value = _turretCountMin;
             ChaosSettings.TurretCountMax.Value = _turretCountMax;

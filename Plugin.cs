@@ -23,6 +23,7 @@ namespace LCChaosMod
             Cogs.MobSpawner.Lang.Init();
             Cogs.TeleportDungeon.Lang.Init();
             Cogs.TeleportShip.Lang.Init();
+            Cogs.RandomSound.Lang.Init();
 
             ChaosSettings.Init(Config);
             _harmony.PatchAll();

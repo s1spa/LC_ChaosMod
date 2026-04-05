@@ -34,7 +34,8 @@ namespace LCChaosMod
         public static ConfigEntry<bool> EnableTeleportDungeon { get; private set; } = null!;
         public static ConfigEntry<bool> EnableTeleportShip { get; private set; } = null!;
         public static ConfigEntry<bool> EnablePlayerSwap { get; private set; } = null!;
-        public static ConfigEntry<bool> EnableGlowstick { get; private set; } = null!;
+        public static ConfigEntry<bool> EnableGlowstick   { get; private set; } = null!;
+        public static ConfigEntry<bool> EnableRandomSound { get; private set; } = null!;
 
         public static void Init(ConfigFile config)
         {
@@ -62,7 +63,8 @@ namespace LCChaosMod
             EnableTeleportDungeon = config.Bind("Events", "TeleportDungeon", true, "Рандомна телепортація по данжу");
             EnableTeleportShip = config.Bind("Events", "TeleportShip", true, "Телепортація на корабель");
             EnablePlayerSwap = config.Bind("Events", "PlayerSwap", true, "Підміна гравців місцями");
-            EnableGlowstick = config.Bind("Events", "Glowstick", true, "Світіння при підйомі Apparatus");
+            EnableGlowstick   = config.Bind("Events", "Glowstick",    true, "Світіння при підйомі Apparatus");
+            EnableRandomSound = config.Bind("Events", "RandomSound",  true, "Рандомний звук моба поруч");
         }
     }
 }
