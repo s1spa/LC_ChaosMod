@@ -27,6 +27,7 @@ You can toggle specific events and adjust their intensity in the settings menu.
 - [ ] **Swap** — Two random players swap positions (Excludes players on the ship).
 - [ ] **Fake Loot** — Deceptive items that explode or vanish when you try to pick them up.
 - [ ] **Ghost Hunt** — Fake footsteps, laughter, or visual glitches to trigger paranoia.
+- [x] **Infinite Stamina** — Just Inginite Stamina LoL
 
 ## 🖥️ Settings Menu
 A dedicated button in the Main Menu allows you to configure the mod:
