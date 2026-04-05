@@ -4,7 +4,7 @@ namespace LCChaosMod.Cogs.MobSpawner
     {
         internal static void Init()
         {
-            Loc.Register("event.mob", "👾 Something is hunting you...", "👾 Щось полює на тебе...");
+            Loc.Register("event.mob", "Something is hunting you...", "Щось полює на тебе...");
         }
     }
 }
