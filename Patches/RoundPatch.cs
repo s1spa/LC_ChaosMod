@@ -33,6 +33,10 @@ namespace LCChaosMod.Patches
 
         private static void StartRound()
         {
+            // Watcher runs on all clients (not host-only)
+            var watcher = new GameObject("LungPropWatcher");
+            watcher.AddComponent<LungPropWatcher>();
+
             if (!ChaosSettings.ModEnabled.Value) return;
             if (!Unity.Netcode.NetworkManager.Singleton.IsServer) return;
             if (EventManager.Instance != null) return;
@@ -51,6 +55,8 @@ namespace LCChaosMod.Patches
                 Object.Destroy(EventManager.Instance.gameObject);
                 Plugin.Log.LogInfo("[RoundLifecycle] EventManager stopped.");
             }
+
+            Cogs.Firefly.FireflyTracker.Cleanup();
         }
     }
 }

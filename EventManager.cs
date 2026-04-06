@@ -62,8 +62,8 @@ namespace LCChaosMod
 
                 if (StartOfRound.Instance == null || StartOfRound.Instance.inShipPhase)
                 {
-                    Plugin.Log.LogInfo("[EventManager] Ship phase — stopping loop.");
-                    yield break;
+                    yield return new WaitForSeconds(5f);
+                    continue;
                 }
 
                 var next = PickEvent();
