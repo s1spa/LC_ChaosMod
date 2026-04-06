@@ -33,6 +33,7 @@ namespace LCChaosMod.UI
         private bool  _evtInfiniteStamina;
         private float _staminaDuration;
         private bool  _evtFirefly;
+        private bool  _evtPlayerSwap;
 
         private Vector2 _evtScroll;
 
@@ -180,6 +181,8 @@ namespace LCChaosMod.UI
 
             GUILayout.Space(4);
             DrawEventRow(7, Loc.Get("event.firefly"), ref _evtFirefly);
+            GUILayout.Space(4);
+            DrawEventRow(8, Loc.Get("event.player_swap"), ref _evtPlayerSwap);
 
             GUILayout.Space(4);
             GUILayout.EndScrollView();
@@ -409,6 +412,7 @@ namespace LCChaosMod.UI
             _evtInfiniteStamina   = ChaosSettings.EnableInfiniteStamina.Value;
             _staminaDuration      = ChaosSettings.StaminaDuration.Value;
             _evtFirefly           = ChaosSettings.EnableGlowstick.Value;
+            _evtPlayerSwap        = ChaosSettings.EnablePlayerSwap.Value;
             _evtTurrets     = ChaosSettings.EnableTurrets.Value;
             _turretCountMin = ChaosSettings.TurretCountMin.Value;
             _turretCountMax = ChaosSettings.TurretCountMax.Value;
@@ -436,6 +440,7 @@ namespace LCChaosMod.UI
             ChaosSettings.EnableInfiniteStamina.Value = _evtInfiniteStamina;
             ChaosSettings.StaminaDuration.Value       = _staminaDuration;
             ChaosSettings.EnableGlowstick.Value       = _evtFirefly;
+            ChaosSettings.EnablePlayerSwap.Value      = _evtPlayerSwap;
             ChaosSettings.EnableTurrets.Value  = _evtTurrets;
             ChaosSettings.TurretCountMin.Value = _turretCountMin;
             ChaosSettings.TurretCountMax.Value = _turretCountMax;

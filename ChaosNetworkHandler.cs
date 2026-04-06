@@ -20,6 +20,7 @@ namespace LCChaosMod
             Cogs.RandomSound.Net.Init();
             Cogs.InfiniteStamina.Net.Init();
             Cogs.Firefly.Net.Init();
+            Cogs.PlayerSwap.Net.Init();
 
             Plugin.Log.LogInfo("[ChaosNetworkHandler] All handlers registered.");
         }
