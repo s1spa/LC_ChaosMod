@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using GameNetcodeStuff;
 using UnityEngine;
 
@@ -5,7 +6,6 @@ namespace LCChaosMod.Cogs.Firefly
 {
     /// <summary>
     /// Marker component — placed on the light GameObject under the player.
-    /// Used to find and remove all active firefly lights at round end.
     /// </summary>
     public class FireflyLight : MonoBehaviour { }
 
@@ -14,6 +14,8 @@ namespace LCChaosMod.Cogs.Firefly
         private static readonly Color GlowColor = new Color(1f, 0.85f, 0.4f); // warm yellow
         private const float Range     = 8f;
         private const float Intensity = 3f;
+
+        private static readonly List<FireflyLight> _active = new();
 
         /// <summary>Called when the local player picks up the Apparatus.</summary>
         public static void OnLocalPlayerGrabbed()
@@ -56,15 +58,17 @@ namespace LCChaosMod.Cogs.Firefly
             light.range     = Range;
             light.intensity = Intensity;
 
-            go.AddComponent<FireflyLight>();
+            var marker = go.AddComponent<FireflyLight>();
+            _active.Add(marker);
             Plugin.Log.LogInfo($"[Firefly] Glow added to {player.playerUsername}.");
         }
 
         /// <summary>Remove all firefly lights at round end.</summary>
         public static void Cleanup()
         {
-            foreach (var marker in Object.FindObjectsOfType<FireflyLight>())
-                Object.Destroy(marker.gameObject);
+            foreach (var marker in _active)
+                if (marker != null) Object.Destroy(marker.gameObject);
+            _active.Clear();
 
             Plugin.Log.LogInfo("[Firefly] Lights cleaned up.");
         }
