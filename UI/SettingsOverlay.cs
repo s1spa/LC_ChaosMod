@@ -32,6 +32,7 @@ namespace LCChaosMod.UI
         private bool  _evtRandomSound;
         private bool  _evtInfiniteStamina;
         private float _staminaDuration;
+        private bool  _evtFirefly;
 
         private Vector2 _evtScroll;
 
@@ -176,6 +177,9 @@ namespace LCChaosMod.UI
                 GUILayout.Space(4);
                 SliderRow(Loc.Get("ui.stamina_duration"), ref _staminaDuration, 5f, 120f);
             }
+
+            GUILayout.Space(4);
+            DrawEventRow(7, Loc.Get("event.firefly"), ref _evtFirefly);
 
             GUILayout.Space(4);
             GUILayout.EndScrollView();
@@ -404,6 +408,7 @@ namespace LCChaosMod.UI
             _evtRandomSound       = ChaosSettings.EnableRandomSound.Value;
             _evtInfiniteStamina   = ChaosSettings.EnableInfiniteStamina.Value;
             _staminaDuration      = ChaosSettings.StaminaDuration.Value;
+            _evtFirefly           = ChaosSettings.EnableGlowstick.Value;
             _evtTurrets     = ChaosSettings.EnableTurrets.Value;
             _turretCountMin = ChaosSettings.TurretCountMin.Value;
             _turretCountMax = ChaosSettings.TurretCountMax.Value;
@@ -430,6 +435,7 @@ namespace LCChaosMod.UI
             ChaosSettings.EnableRandomSound.Value     = _evtRandomSound;
             ChaosSettings.EnableInfiniteStamina.Value = _evtInfiniteStamina;
             ChaosSettings.StaminaDuration.Value       = _staminaDuration;
+            ChaosSettings.EnableGlowstick.Value       = _evtFirefly;
             ChaosSettings.EnableTurrets.Value  = _evtTurrets;
             ChaosSettings.TurretCountMin.Value = _turretCountMin;
             ChaosSettings.TurretCountMax.Value = _turretCountMax;

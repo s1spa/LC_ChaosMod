@@ -25,6 +25,7 @@ namespace LCChaosMod.Patches
             }
 
             if (_triggered) return;
+            if (!ChaosSettings.EnableGlowstick.Value) return;
 
             var player = GameNetworkManager.Instance?.localPlayerController;
             if (player == null) return;
