@@ -12,7 +12,6 @@ namespace LCChaosMod.Cogs.SizeMatters
         private const string MsgShrink  = "LCChaosMod_Shrink";
         private const string MsgStretch = "LCChaosMod_Stretch";
 
-        // Використовуємо playerClientId (0, 1, 2, 3), а не actualClientId
         private static readonly HashSet<ulong> _active = new();
         private static readonly Dictionary<int, int> _shrinkGen  = new();
         private static readonly Dictionary<int, int> _stretchGen = new();
@@ -24,6 +23,11 @@ namespace LCChaosMod.Cogs.SizeMatters
             var mgr = NetworkManager.Singleton.CustomMessagingManager;
             mgr.RegisterNamedMessageHandler(MsgShrink,  OnReceiveShrink);
             mgr.RegisterNamedMessageHandler(MsgStretch, OnReceiveStretch);
+
+            // Створюємо глобального наглядача за голосами (лікує пул Dissonance)
+            var watcher = new GameObject("SizeMattersPitchWatcher");
+            Object.DontDestroyOnLoad(watcher);
+            watcher.AddComponent<PitchWatcher>();
         }
 
         // ── Shrink ────────────────────────────────────────────────────────────
@@ -31,7 +35,7 @@ namespace LCChaosMod.Cogs.SizeMatters
         public static void Broadcast(ulong targetPlayerClientId, float scale, float duration)
         {
             ApplyShrink(targetPlayerClientId, scale, duration);
-            var writer = new FastBufferWriter(32, Allocator.Temp); // Збільшено буфер для безпеки
+            var writer = new FastBufferWriter(32, Allocator.Temp);
             using (writer)
             {
                 writer.WriteValueSafe(targetPlayerClientId);
@@ -88,7 +92,6 @@ namespace LCChaosMod.Cogs.SizeMatters
             var enforcer = ScaleEnforcer.Attach(player, new Vector3(scale, scale, scale));
 
             float elapsed = 0f;
-            // Додано перевірку player.isPlayerControlled на випадок, якщо гравець вийде з гри
             while (elapsed < duration
                    && player != null && player.isPlayerControlled && !player.isPlayerDead
                    && !StartOfRound.Instance.inShipPhase
@@ -120,7 +123,7 @@ namespace LCChaosMod.Cogs.SizeMatters
             if (isCurrent)
             {
                 _active.Remove(player.playerClientId);
-                ResetPitch(pidx, player); // Жорстко повертаємо голос до норми
+                // Ми більше не викликаємо ResetPitch. PitchWatcher сам все скине у наступному кадрі!
             }
             Plugin.Log.LogInfo($"[SizeMatters] {player?.playerUsername} (small) done gen={gen}.");
         }
@@ -205,7 +208,6 @@ namespace LCChaosMod.Cogs.SizeMatters
                 if (cc  != null)
                 {
                     cc.enabled = false;
-                    // Для великого гравця МИ НЕ рухаємо його позицію вниз, щоб він не провалився під текстури!
                     cc.height = origHeight; cc.center = origCenter;
                     cc.enabled = true;
                 }
@@ -214,7 +216,6 @@ namespace LCChaosMod.Cogs.SizeMatters
             if (isCurrent)
             {
                 _active.Remove(player.playerClientId);
-                ResetPitch(pidx, player);
             }
             Plugin.Log.LogInfo($"[SizeMatters] {player?.playerUsername} (tall) done gen={gen}.");
         }
@@ -234,20 +235,6 @@ namespace LCChaosMod.Cogs.SizeMatters
                 player.currentVoiceChatAudioSource.pitch = pitch;
         }
 
-        private static void ResetPitch(int pidx, PlayerControllerB player)
-        {
-            if (SoundManager.Instance != null)
-            {
-                if (pidx < SoundManager.Instance.playerVoicePitchTargets.Length)
-                    SoundManager.Instance.playerVoicePitchTargets[pidx] = 1f;
-                if (pidx < SoundManager.Instance.playerVoicePitches.Length)
-                    SoundManager.Instance.playerVoicePitches[pidx] = 1f;
-            }
-            if (player != null && player.currentVoiceChatAudioSource != null)
-                player.currentVoiceChatAudioSource.pitch = 1f;
-        }
-
-        // Тепер шукаємо гравців за їхнім стабільним індексом
         private static PlayerControllerB? FindPlayer(ulong pClientId)
         {
             foreach (var p in StartOfRound.Instance.allPlayerScripts)
@@ -257,6 +244,51 @@ namespace LCChaosMod.Cogs.SizeMatters
         }
     }
 
+    // ── Глобальний наглядач за голосами ───────────────────────────────────
+    internal class PitchWatcher : MonoBehaviour
+    {
+        private void LateUpdate()
+        {
+            if (StartOfRound.Instance == null || SoundManager.Instance == null) return;
+
+            foreach (var p in StartOfRound.Instance.allPlayerScripts)
+            {
+                // Якщо гравець живий і НЕ бере участі в івенті розміру
+                if (p != null && p.isPlayerControlled && !Net.IsActive(p.playerClientId))
+                {
+                    int pidx = (int)p.playerClientId;
+
+                    // 1. Очищаємо внутрішні масиви гри
+                    if (pidx >= 0 && pidx < SoundManager.Instance.playerVoicePitchTargets.Length)
+                    {
+                        float target = SoundManager.Instance.playerVoicePitchTargets[pidx];
+                        if (Mathf.Approximately(target, 2f) || Mathf.Approximately(target, 0.7f))
+                            SoundManager.Instance.playerVoicePitchTargets[pidx] = 1f;
+                    }
+
+                    if (pidx >= 0 && pidx < SoundManager.Instance.playerVoicePitches.Length)
+                    {
+                        float pitch = SoundManager.Instance.playerVoicePitches[pidx];
+                        if (Mathf.Approximately(pitch, 2f) || Mathf.Approximately(pitch, 0.7f))
+                            SoundManager.Instance.playerVoicePitches[pidx] = 1f;
+                    }
+
+                    // 2. Очищаємо Dissonance AudioSource (це лікує баг із пулом джерел звуку)
+                    if (p.currentVoiceChatAudioSource != null)
+                    {
+                        float srcPitch = p.currentVoiceChatAudioSource.pitch;
+                        // Перевіряємо саме наші значення (2f і 0.7f), щоб не зламати ефекти від балонів TZP
+                        if (Mathf.Approximately(srcPitch, 2f) || Mathf.Approximately(srcPitch, 0.7f))
+                        {
+                            p.currentVoiceChatAudioSource.pitch = 1f;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // ── Наглядач за розміром (щокадру) ────────────────────────────────────
     internal class ScaleEnforcer : MonoBehaviour
     {
         private PlayerControllerB? _player;

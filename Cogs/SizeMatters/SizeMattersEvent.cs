@@ -22,7 +22,7 @@ namespace LCChaosMod.Cogs.SizeMatters
             var eligible = new List<GameNetcodeStuff.PlayerControllerB>();
             foreach (var p in StartOfRound.Instance.allPlayerScripts)
                 if (p.isPlayerControlled && !p.isPlayerDead && !p.isInHangarShipRoom
-                    && !Net.IsActive(p.playerClientId)) // Змінено на playerClientId
+                    && !Net.IsActive(p.playerClientId)) // Використовуємо playerClientId
                     eligible.Add(p);
 
             if (eligible.Count == 0)
@@ -37,7 +37,7 @@ namespace LCChaosMod.Cogs.SizeMatters
             int shrinkIdx = Random.Range(0, eligible.Count);
             var shrinkTarget = eligible[shrinkIdx];
             Plugin.Log.LogInfo($"[SizeMattersEvent] Shrinking {shrinkTarget.playerUsername}.");
-            Net.Broadcast(shrinkTarget.playerClientId, ChaosSettings.SizeScale.Value, dur); // Змінено на playerClientId
+            Net.Broadcast(shrinkTarget.playerClientId, ChaosSettings.SizeScale.Value, dur);
 
             // Pick a different player for stretch (if available)
             if (eligible.Count >= 2)
@@ -45,7 +45,7 @@ namespace LCChaosMod.Cogs.SizeMatters
                 eligible.RemoveAt(shrinkIdx);
                 var stretchTarget = eligible[Random.Range(0, eligible.Count)];
                 Plugin.Log.LogInfo($"[SizeMattersEvent] Stretching {stretchTarget.playerUsername}.");
-                Net.BroadcastStretch(stretchTarget.playerClientId, ChaosSettings.SizeStretchScale.Value, dur); // Змінено на playerClientId
+                Net.BroadcastStretch(stretchTarget.playerClientId, ChaosSettings.SizeStretchScale.Value, dur);
             }
         }
     }
