@@ -58,12 +58,33 @@ namespace LCChaosMod.Cogs.SizeMatters
 
             player.thisPlayerBody.localScale = new Vector3(scale, scale, scale);
 
-            // Move camera down for the local player only
+            // Local-player-only adjustments: camera + CharacterController hitbox
             bool isLocal = player == GameNetworkManager.Instance?.localPlayerController;
             Transform? cam = isLocal ? player.gameplayCamera?.transform : null;
             Vector3 origCamPos = cam != null ? cam.localPosition : Vector3.zero;
             if (cam != null)
                 cam.localPosition = new Vector3(origCamPos.x, origCamPos.y * scale, origCamPos.z);
+
+            CharacterController? cc = isLocal ? player.GetComponent<CharacterController>() : null;
+            float origHeight = 0f, origRadius = 0f;
+            Vector3 origCenter = Vector3.zero;
+            if (cc != null)
+            {
+                origHeight = cc.height;
+                origRadius = cc.radius;
+                origCenter = cc.center;
+                cc.height = origHeight * scale;
+                cc.radius = origRadius * scale;
+                cc.center = origCenter * scale;
+            }
+
+            // Smaller = faster: speed scales inversely with size (local only)
+            float origSpeed = 0f;
+            if (isLocal)
+            {
+                origSpeed = player.movementSpeed;
+                player.movementSpeed = origSpeed * (2f - scale);
+            }
 
             int pidx = (int)player.playerClientId;
             float elapsed = 0f;
@@ -86,6 +107,19 @@ namespace LCChaosMod.Cogs.SizeMatters
                 player.thisPlayerBody.localScale = Vector3.one;
             if (cam != null)
                 cam.localPosition = origCamPos;
+            if (cc != null)
+            {
+                // Push player up by the height difference so they don't get
+                // stuck inside geometry if they crawled into a tight space.
+                cc.enabled = false;
+                player.transform.position += Vector3.up * (origHeight - cc.height);
+                cc.height  = origHeight;
+                cc.radius  = origRadius;
+                cc.center  = origCenter;
+                cc.enabled = true;
+            }
+            if (isLocal && player != null)
+                player.movementSpeed = origSpeed;
             if (SoundManager.Instance != null && pidx < SoundManager.Instance.playerVoicePitchTargets.Length)
                 SoundManager.Instance.playerVoicePitchTargets[pidx] = 1f;
             if (player != null && player.currentVoiceChatAudioSource != null)
