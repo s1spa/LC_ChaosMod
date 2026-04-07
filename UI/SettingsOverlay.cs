@@ -71,7 +71,19 @@ namespace LCChaosMod.UI
             DontDestroyOnLoad(gameObject);
             LoadFromConfig();
         }
-        private void OnDestroy() => Instance = null;
+        private void OnDestroy()
+        {
+            Instance = null;
+            if (_txBg     != null) Object.Destroy(_txBg);
+            if (_txMain   != null) Object.Destroy(_txMain);
+            if (_txDim    != null) Object.Destroy(_txDim);
+            if (_txBtnOff != null) Object.Destroy(_txBtnOff);
+            if (_txBtnOn  != null) Object.Destroy(_txBtnOn);
+            // Circle texture is stored only in _sSliderThumb.normal.background
+            if (_sSliderThumb?.normal.background != null) Object.Destroy(_sSliderThumb.normal.background);
+            // Hover texture stored locally in EnsureStyles
+            if (_sBtnOn?.hover.background != null) Object.Destroy(_sBtnOn.hover.background);
+        }
 
         public void Show()
         {

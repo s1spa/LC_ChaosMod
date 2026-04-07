@@ -38,7 +38,7 @@ namespace LCChaosMod.UI
 
         private static IEnumerator TryInject(GameObject runner)
         {
-            for (int i = 0; i < 5; i++) yield return null;
+            yield return new WaitUntil(() => Object.FindObjectOfType<Button>(true) != null);
 
             if (GameObject.Find("ChaosModButton") != null) { Object.Destroy(runner); yield break; }
 
