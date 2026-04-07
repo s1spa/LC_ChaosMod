@@ -36,6 +36,8 @@ namespace LCChaosMod.UI
         private bool  _evtPlayerSwap;
         private bool  _evtBerserkTurret;
         private float _berserkDuration;
+        private bool  _evtFootball;
+        private float _footballDuration;
 
         private Vector2 _evtScroll;
 
@@ -191,6 +193,14 @@ namespace LCChaosMod.UI
             {
                 GUILayout.Space(4);
                 SliderRow(Loc.Get("ui.berserk_duration"), ref _berserkDuration, 5f, 60f);
+            }
+
+            GUILayout.Space(4);
+            DrawEventRow(10, Loc.Get("event.football"), ref _evtFootball);
+            if (_expandedEvt == 10)
+            {
+                GUILayout.Space(4);
+                SliderRow(Loc.Get("ui.football_duration"), ref _footballDuration, 10f, 120f);
             }
 
             GUILayout.Space(4);
@@ -424,6 +434,8 @@ namespace LCChaosMod.UI
             _evtPlayerSwap        = ChaosSettings.EnablePlayerSwap.Value;
             _evtBerserkTurret     = ChaosSettings.EnableBerserkTurret.Value;
             _berserkDuration      = ChaosSettings.BerserkDuration.Value;
+            _evtFootball          = ChaosSettings.EnableFootball.Value;
+            _footballDuration     = ChaosSettings.FootballDuration.Value;
             _evtTurrets     = ChaosSettings.EnableTurrets.Value;
             _turretCountMin = ChaosSettings.TurretCountMin.Value;
             _turretCountMax = ChaosSettings.TurretCountMax.Value;
@@ -454,6 +466,8 @@ namespace LCChaosMod.UI
             ChaosSettings.EnablePlayerSwap.Value      = _evtPlayerSwap;
             ChaosSettings.EnableBerserkTurret.Value   = _evtBerserkTurret;
             ChaosSettings.BerserkDuration.Value       = _berserkDuration;
+            ChaosSettings.EnableFootball.Value        = _evtFootball;
+            ChaosSettings.FootballDuration.Value      = _footballDuration;
             ChaosSettings.EnableTurrets.Value  = _evtTurrets;
             ChaosSettings.TurretCountMin.Value = _turretCountMin;
             ChaosSettings.TurretCountMax.Value = _turretCountMax;

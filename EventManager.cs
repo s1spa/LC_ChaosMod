@@ -33,6 +33,7 @@ namespace LCChaosMod
             _events.Add(new Cogs.InfiniteStaminaEvent());
             _events.Add(new Cogs.PlayerSwapEvent());
             _events.Add(new Cogs.BerserkTurretEvent());
+            _events.Add(new Cogs.FootballEvent());
             Plugin.Log.LogInfo($"[EventManager] Start() — {_events.Count} events registered.");
 
             if (_events.Count == 0)

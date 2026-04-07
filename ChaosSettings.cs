@@ -40,6 +40,8 @@ namespace LCChaosMod
         public static ConfigEntry<float> StaminaDuration       { get; private set; } = null!;
         public static ConfigEntry<bool>  EnableBerserkTurret   { get; private set; } = null!;
         public static ConfigEntry<float> BerserkDuration       { get; private set; } = null!;
+        public static ConfigEntry<bool>  EnableFootball        { get; private set; } = null!;
+        public static ConfigEntry<float> FootballDuration      { get; private set; } = null!;
 
         public static void Init(ConfigFile config)
         {
@@ -73,6 +75,8 @@ namespace LCChaosMod
             StaminaDuration       = config.Bind("Events", "StaminaDuration",   10f,   "Тривалість нескінченної витривалості (секунди)");
             EnableBerserkTurret   = config.Bind("Events", "BerserkTurret",     true,  "Турелі збожеволіли");
             BerserkDuration       = config.Bind("Events", "BerserkDuration",   10f,   "Тривалість берсерку турелі (секунди)");
+            EnableFootball        = config.Bind("Events", "Football",           true,  "Час футболу");
+            FootballDuration      = config.Bind("Events", "FootballDuration",   30f,  "Тривалість футбольного режиму (секунди)");
         }
     }
 }
