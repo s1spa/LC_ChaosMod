@@ -43,6 +43,9 @@ namespace LCChaosMod
         public static ConfigEntry<bool>  EnableFootball        { get; private set; } = null!;
         public static ConfigEntry<float> FootballDuration      { get; private set; } = null!;
         public static ConfigEntry<bool>  EnableFakeMessage     { get; private set; } = null!;
+        public static ConfigEntry<bool>  EnableSizeMatters     { get; private set; } = null!;
+        public static ConfigEntry<float> SizeScale             { get; private set; } = null!;
+        public static ConfigEntry<float> SizeDuration          { get; private set; } = null!;
 
         public static void Init(ConfigFile config)
         {
@@ -79,6 +82,9 @@ namespace LCChaosMod
             EnableFootball        = config.Bind("Events", "Football",           true,  "Час футболу");
             FootballDuration      = config.Bind("Events", "FootballDuration",   30f,  "Тривалість футбольного режиму (секунди)");
             EnableFakeMessage     = config.Bind("Events", "FakeMessage",        true,  "Фейкове повідомлення компанії");
+            EnableSizeMatters     = config.Bind("Events", "SizeMatters",        true,  "Зміна розміру гравця");
+            SizeScale             = config.Bind("Events", "SizeScale",          0.4f,  "Розмір гравця (0.1 - 1.0)");
+            SizeDuration          = config.Bind("Events", "SizeDuration",       15f,   "Тривалість зміни розміру (секунди)");
         }
     }
 }

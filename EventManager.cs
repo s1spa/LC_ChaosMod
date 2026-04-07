@@ -35,6 +35,7 @@ namespace LCChaosMod
             _events.Add(new Cogs.BerserkTurretEvent());
             _events.Add(new Cogs.FootballEvent());
             _events.Add(new Cogs.FakeMessage.FakeMessageEvent());
+            _events.Add(new Cogs.SizeMatters.SizeMattersEvent());
             Plugin.Log.LogInfo($"[EventManager] Start() — {_events.Count} events registered.");
 
             if (_events.Count == 0)

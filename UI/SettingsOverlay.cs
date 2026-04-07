@@ -39,6 +39,9 @@ namespace LCChaosMod.UI
         private bool  _evtFootball;
         private float _footballDuration;
         private bool  _evtFakeMessage;
+        private bool  _evtSizeMatters;
+        private float _sizeScale;
+        private float _sizeDuration;
 
         private Vector2 _evtScroll;
 
@@ -206,6 +209,16 @@ namespace LCChaosMod.UI
 
             GUILayout.Space(4);
             DrawEventRow(11, Loc.Get("event.fake_message"), ref _evtFakeMessage);
+
+            GUILayout.Space(4);
+            DrawEventRow(12, Loc.Get("event.size_matters"), ref _evtSizeMatters);
+            if (_expandedEvt == 12)
+            {
+                GUILayout.Space(4);
+                SliderRow(Loc.Get("ui.size_scale"),    ref _sizeScale,    0.1f, 1.0f);
+                GUILayout.Space(2);
+                SliderRow(Loc.Get("ui.size_duration"), ref _sizeDuration,  5f,  60f);
+            }
 
             GUILayout.Space(4);
             GUILayout.EndScrollView();
@@ -441,6 +454,9 @@ namespace LCChaosMod.UI
             _evtFootball          = ChaosSettings.EnableFootball.Value;
             _footballDuration     = ChaosSettings.FootballDuration.Value;
             _evtFakeMessage       = ChaosSettings.EnableFakeMessage.Value;
+            _evtSizeMatters       = ChaosSettings.EnableSizeMatters.Value;
+            _sizeScale            = ChaosSettings.SizeScale.Value;
+            _sizeDuration         = ChaosSettings.SizeDuration.Value;
             _evtTurrets     = ChaosSettings.EnableTurrets.Value;
             _turretCountMin = ChaosSettings.TurretCountMin.Value;
             _turretCountMax = ChaosSettings.TurretCountMax.Value;
@@ -474,6 +490,9 @@ namespace LCChaosMod.UI
             ChaosSettings.EnableFootball.Value        = _evtFootball;
             ChaosSettings.FootballDuration.Value      = _footballDuration;
             ChaosSettings.EnableFakeMessage.Value     = _evtFakeMessage;
+            ChaosSettings.EnableSizeMatters.Value     = _evtSizeMatters;
+            ChaosSettings.SizeScale.Value             = _sizeScale;
+            ChaosSettings.SizeDuration.Value          = _sizeDuration;
             ChaosSettings.EnableTurrets.Value  = _evtTurrets;
             ChaosSettings.TurretCountMin.Value = _turretCountMin;
             ChaosSettings.TurretCountMax.Value = _turretCountMax;
