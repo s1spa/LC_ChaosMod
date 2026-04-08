@@ -36,6 +36,10 @@ You can toggle specific events and adjust their intensity in the settings menu.
 Upcoming paranoia mechanics:
 - [ ] **Fake Loot** — Deceptive items that explode or vanish when you try to pick them up.
 - [ ] **Ghost Hunt** — Fake footsteps, laughter, or visual glitches to trigger paranoia.
+- [ ] **Reverse Controls** — Classic disorientation: swaps movement keys (W ↔ S, A ↔ D).
+- [ ] **Drunken Effect** — Intoxication mechanic: applies a heavy blur effect and causes the camera to sway smoothly, throwing off your navigation.
+- [ ] **Mimic Doors** — A temporary trap: for 15 seconds, all iron doors shock players upon interaction, dealing minor damage and applying a stun effect.
+- [ ] **Voice Pitch Shift** — Radio chaos: randomly shifts player voice pitches to be extremely high (chipmunk) or demonic-low, turning serious coordination into pure comedy.
 
 ## 🖥️ Terminal Settings Menu
 A dedicated `> Chaos Events Mod` button in the Main Menu opens a custom retro-terminal overlay to configure the mod:
