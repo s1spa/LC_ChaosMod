@@ -41,9 +41,5 @@ namespace LCChaosMod
             Log.LogInfo($"{MyPluginInfo.PLUGIN_NAME} v{MyPluginInfo.PLUGIN_VERSION} loaded!");
         }
 
-        private void OnDestroy()
-        {
-            _harmony.UnpatchSelf();
-        }
     }
 }
