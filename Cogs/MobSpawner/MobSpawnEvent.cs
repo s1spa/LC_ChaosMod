@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using GameNetcodeStuff;
-using LCChaosMod.Utils;
+using static LCChaosMod.Utils.PlayerUtils;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -68,6 +68,12 @@ namespace LCChaosMod.Cogs
             Vector3 pos = target.transform.position + new Vector3(ox, 0f, oz);
             float yRot = Random.Range(0f, 360f);
 
+            if (IsNearShip(pos))
+            {
+                Plugin.Log.LogInfo("[MobSpawnEvent] Spawn pos too close to ship, skipping.");
+                return;
+            }
+
             Plugin.Log.LogInfo($"[MobSpawnEvent] Spawning outdoor '{name}' near {target.playerUsername}.");
 
             GameObject go = Object.Instantiate(enemyType.enemyPrefab, pos, Quaternion.Euler(0f, yRot, 0f));
@@ -106,7 +112,7 @@ namespace LCChaosMod.Cogs
 
             var alive = new List<PlayerControllerB>();
             foreach (var p in all)
-                if (p.isPlayerControlled && !p.isPlayerDead && !PlayerUtils.IsOnShip(p))
+                if (p.isPlayerControlled && !p.isPlayerDead && !IsOnShip(p))
                     alive.Add(p);
 
             if (alive.Count == 0) return null;

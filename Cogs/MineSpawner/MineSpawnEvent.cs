@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using GameNetcodeStuff;
-using LCChaosMod.Utils;
+using static LCChaosMod.Utils.PlayerUtils;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
@@ -23,7 +23,7 @@ namespace LCChaosMod.Cogs
             EventManager.Instance?.StartCoroutine(SpawnLoop());
         }
 
-        // ── Spawn loop: MineCountMin–MineCountMax mines, MineRateMin–MineRateMax s apart ──
+        // Спавн-цикл: MineCountMin–MineCountMax мін, інтервал MineRateMin–MineRateMax с
         private static IEnumerator SpawnLoop()
         {
             GameObject? prefab = FindMinePrefab();
@@ -44,7 +44,7 @@ namespace LCChaosMod.Cogs
             }
         }
 
-        // ── Find mine prefab via RoundManager.spawnableMapObjects ────
+        // Знаходить prefab міни через spawnableMapObjects
         private static GameObject? FindMinePrefab()
         {
             var objects = StartOfRound.Instance?.currentLevel?.spawnableMapObjects;
@@ -86,6 +86,12 @@ namespace LCChaosMod.Cogs
                     pos = groundHit.point;
             }
 
+            if (IsNearShip(pos))
+            {
+                Plugin.Log.LogInfo("[MineSpawnEvent] Spawn pos too close to ship, skipping.");
+                return;
+            }
+
             Transform parent = RoundManager.Instance.mapPropsContainer.transform;
             GameObject go = Object.Instantiate(prefab, pos, Quaternion.identity, parent);
 
@@ -104,7 +110,7 @@ namespace LCChaosMod.Cogs
             var candidates = new List<PlayerControllerB>();
             foreach (var p in all)
             {
-                if (p.isPlayerControlled && !p.isPlayerDead && !PlayerUtils.IsOnShip(p))
+                if (p.isPlayerControlled && !p.isPlayerDead && !IsOnShip(p))
                     candidates.Add(p);
             }
 

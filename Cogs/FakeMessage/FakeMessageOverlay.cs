@@ -124,7 +124,7 @@ namespace LCChaosMod.Cogs.FakeMessage
             var    msg  = Messages[_msgIdx];
             string body = msg.bEN.Replace("{0}s", "30s").Replace("{0}с", "30с");
 
-            // isWarning: false → blue TriggerHint panel
+            // isWarning: false → синій TriggerHint
             hud.DisplayTip(msg.hEN, body, isWarning: false);
         }
 

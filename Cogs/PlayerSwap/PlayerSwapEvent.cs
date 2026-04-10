@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using GameNetcodeStuff;
-using LCChaosMod.Utils;
+using static LCChaosMod.Utils.PlayerUtils;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -51,7 +51,7 @@ namespace LCChaosMod.Cogs
 
             var result = new List<PlayerControllerB>();
             foreach (var p in all)
-                if (p.isPlayerControlled && !p.isPlayerDead && !PlayerUtils.IsOnShip(p))
+                if (p.isPlayerControlled && !p.isPlayerDead && !IsOnShip(p))
                     result.Add(p);
             return result;
         }

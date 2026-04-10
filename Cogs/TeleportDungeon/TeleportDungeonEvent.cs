@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using GameNetcodeStuff;
-using LCChaosMod.Utils;
+using static LCChaosMod.Utils.PlayerUtils;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -26,7 +26,7 @@ namespace LCChaosMod.Cogs
                 return;
             }
 
-            // Телепортуємо всіх гравців які зараз всередині данжу
+            // * Телепортуємо всіх гравців які зараз всередині данжу
             var inside = GetInsidePlayers();
             if (inside.Count == 0)
             {
@@ -49,7 +49,7 @@ namespace LCChaosMod.Cogs
 
             var result = new List<PlayerControllerB>();
             foreach (var p in all)
-                if (p.isPlayerControlled && !p.isPlayerDead && p.isInsideFactory)
+                if (p.isPlayerControlled && !p.isPlayerDead && IsInDungeon(p))
                     result.Add(p);
             return result;
         }

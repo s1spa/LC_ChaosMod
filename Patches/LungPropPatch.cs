@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace LCChaosMod.Patches
 {
-    //Watches every frame if the local player is holding the Apparatus (LungProp).
-    // Triggers the Firefly glow once on pickup.
+    // Кожен кадр перевіряє чи локальний гравець тримає Apparatus (LungProp).
+    // При підніманні — вмикає Firefly glow один раз.
     public class LungPropWatcher : MonoBehaviour
     {
         private bool _triggered;
 
         private void Update()
         {
-            // Round ended — remove glow and reset
+            // Раунд закінчився — прибираємо glow і скидаємо
             if (StartOfRound.Instance != null && StartOfRound.Instance.inShipPhase)
             {
                 if (_triggered)

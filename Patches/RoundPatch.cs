@@ -3,11 +3,9 @@ using UnityEngine.SceneManagement;
 
 namespace LCChaosMod.Patches
 {
-    /// <summary>
-    /// Starts/stops EventManager based on scene transitions.
-    /// Uses SceneManager.sceneLoaded — same approach as MainMenuInjector (confirmed working).
-    /// Level* scenes = in-game round. SampleSceneRelay = lobby/ship.
-    /// </summary>
+    // Запускає/зупиняє EventManager при зміні сцен.
+    // * Використовує SceneManager.sceneLoaded — так само як MainMenuInjector.
+    // Level* — ігровий раунд. SampleSceneRelay — лобі/корабель.
     internal static class RoundLifecycle
     {
         public static void Init()
@@ -33,14 +31,14 @@ namespace LCChaosMod.Patches
 
         private static void StartRound()
         {
-            // Watcher runs on all clients (not host-only)
+            // * Watcher запускається на всіх клієнтах, не тільки на хості
             var watcher = new GameObject("LungPropWatcher");
             watcher.AddComponent<LungPropWatcher>();
 
             if (!ChaosSettings.ModEnabled.Value) return;
             if (!Unity.Netcode.NetworkManager.Singleton.IsServer) return;
             if (EventManager.Instance != null) return;
-            // Skip Gordion (company moon) — it's "LevelGordion" but just in case check name too
+            // ! Пропускаємо Gordion (місяць компанії)
             if (StartOfRound.Instance != null && StartOfRound.Instance.currentLevelID == 3) return;
 
             var go = new GameObject("ChaosEventManager");

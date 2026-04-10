@@ -87,14 +87,12 @@ namespace LCChaosMod.Cogs.Football
             }
         }
 
-        /// <summary>
-        /// Physics simulation — runs on ALL clients (and host) via Net.
-        /// Static so it can be called without a FootballWatcher instance on clients.
-        /// </summary>
+        // * Симуляція фізики — запускається на ВСІХ клієнтах (і хості) через Net.
+        // Static — можна викликати без екземпляру FootballWatcher на клієнтах.
         public static IEnumerator KickCoroutineStatic(GrabbableObject item, Vector3 dir, Vector3 startPos)
         {
             _flying.Add(item);
-            item.hasHitGround = true; // stop GrabbableObject from running FallWithCurve
+            item.hasHitGround = true; // зупиняємо FallWithCurve
 
             Vector3 pos = startPos;
             float vy = VSpeed;
@@ -110,7 +108,7 @@ namespace LCChaosMod.Cogs.Football
 
                 Vector3 step = (dir * HSpeed + Vector3.up * vy) * dt;
 
-                // Wall check
+                // Перевірка стіни
                 if (Physics.Raycast(pos, step.normalized, out RaycastHit wallHit,
                     step.magnitude + 0.08f, WallMask, QueryTriggerInteraction.Ignore))
                 {
@@ -129,7 +127,7 @@ namespace LCChaosMod.Cogs.Football
 
                 item.transform.position = pos;
 
-                // Floor landing
+                // Приземлення
                 if (vy < 0f)
                 {
                     float checkDist = Mathf.Abs(vy) * dt + 0.15f;

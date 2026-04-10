@@ -15,12 +15,10 @@ namespace LCChaosMod.Utils
                 .RegisterNamedMessageHandler(MsgTeleport, OnReceive);
         }
 
-        /// <summary>
-        /// Host: teleport a specific player to dest.
-        /// If it's the host's own player — apply locally.
-        /// Otherwise — send message to that client.
-        /// toShip: also sets isInsideFactory=false, isInHangarShipRoom=true.
-        /// </summary>
+        // Телепортує конкретного гравця до dest (тільки хост).
+        // Якщо це сам хост — застосовуємо локально.
+        // Інакше — надсилаємо повідомлення клієнту.
+        // toShip: також встановлює isInsideFactory=false, isInHangarShipRoom=true.
         public static void Send(PlayerControllerB player, Vector3 dest, bool toShip)
         {
             if (player.actualClientId == NetworkManager.Singleton.LocalClientId)

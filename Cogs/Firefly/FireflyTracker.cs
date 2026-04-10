@@ -8,7 +8,7 @@ namespace LCChaosMod.Cogs.Firefly
 
     internal static class FireflyTracker
     {
-        private static readonly Color GlowColor = new Color(1f, 0.85f, 0.4f); // warm yellow
+        private static readonly Color GlowColor = new Color(1f, 0.85f, 0.4f); // теплий жовтий
         private const float Range     = 8f;
         private const float Intensity = 3f;
 
@@ -40,7 +40,7 @@ namespace LCChaosMod.Cogs.Firefly
 
         private static void AddLight(PlayerControllerB player)
         {
-            // Don't add duplicate
+            // ! Не дублюємо
             if (player.GetComponentInChildren<FireflyLight>() != null) return;
 
             var go = new GameObject("FireflyLight");
@@ -59,7 +59,7 @@ namespace LCChaosMod.Cogs.Firefly
             Plugin.Log.LogInfo($"[Firefly] Glow added to {player.playerUsername}.");
         }
 
-        /// <summary>Remove all firefly lights at round end.</summary>
+        // Видалити всі firefly вогники в кінці раунду.
         public static void Cleanup()
         {
             foreach (var marker in _active)

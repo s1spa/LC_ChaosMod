@@ -30,7 +30,7 @@ namespace LCChaosMod.Cogs.SizeMatters
             watcher.AddComponent<PitchWatcher>();
         }
 
-        // ── Shrink ────────────────────────────────────────────────────────────
+        // * ── Shrink ──────────────────────────────────────────────────────────
 
         public static void Broadcast(ulong targetPlayerClientId, float scale, float duration)
         {
@@ -123,12 +123,12 @@ namespace LCChaosMod.Cogs.SizeMatters
             if (isCurrent)
             {
                 _active.Remove(player.playerClientId);
-                // Ми більше не викликаємо ResetPitch. PitchWatcher сам все скине у наступному кадрі!
+                // ! Ми більше не викликаємо ResetPitch — PitchWatcher сам все скине у наступному кадрі
             }
             Plugin.Log.LogInfo($"[SizeMatters] {player?.playerUsername} (small) done gen={gen}.");
         }
 
-        // ── Stretch ───────────────────────────────────────────────────────────
+        // * ── Stretch ─────────────────────────────────────────────────────────
 
         public static void BroadcastStretch(ulong targetPlayerClientId, float scaleY, float duration)
         {
@@ -220,7 +220,7 @@ namespace LCChaosMod.Cogs.SizeMatters
             Plugin.Log.LogInfo($"[SizeMatters] {player?.playerUsername} (tall) done gen={gen}.");
         }
 
-        // ── Helpers ───────────────────────────────────────────────────────────
+        // * ── Helpers ─────────────────────────────────────────────────────────
 
         private static void SetPitch(int pidx, PlayerControllerB player, float pitch)
         {
@@ -244,7 +244,7 @@ namespace LCChaosMod.Cogs.SizeMatters
         }
     }
 
-    // ── Глобальний наглядач за голосами ───────────────────────────────────
+    // * ── Глобальний наглядач за голосами ────────────────────────────────
     internal class PitchWatcher : MonoBehaviour
     {
         private void LateUpdate()
@@ -277,7 +277,7 @@ namespace LCChaosMod.Cogs.SizeMatters
                     if (p.currentVoiceChatAudioSource != null)
                     {
                         float srcPitch = p.currentVoiceChatAudioSource.pitch;
-                        // Перевіряємо саме наші значення (2f і 0.7f), щоб не зламати ефекти від балонів TZP
+                        // * Перевіряємо саме наші значення (2f і 0.7f) — щоб не зламати ефекти від балонів TZP
                         if (Mathf.Approximately(srcPitch, 2f) || Mathf.Approximately(srcPitch, 0.7f))
                         {
                             p.currentVoiceChatAudioSource.pitch = 1f;
@@ -288,7 +288,7 @@ namespace LCChaosMod.Cogs.SizeMatters
         }
     }
 
-    // ── Наглядач за розміром (щокадру) ────────────────────────────────────
+    // * ── Наглядач за розміром (щокадру) ─────────────────────────────────
     internal class ScaleEnforcer : MonoBehaviour
     {
         private PlayerControllerB? _player;

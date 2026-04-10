@@ -5,8 +5,8 @@ namespace LCChaosMod.Cogs.Firefly
 {
     internal static class Net
     {
-        private const string MsgNotify = "LCChaosMod_FireflyNotify"; // client → server
-        private const string MsgGlow   = "LCChaosMod_Firefly";       // server → all clients
+        private const string MsgNotify = "LCChaosMod_FireflyNotify"; // клієнт → сервер
+        private const string MsgGlow   = "LCChaosMod_Firefly";       // сервер → всі клієнти
 
         public static void Init()
         {
