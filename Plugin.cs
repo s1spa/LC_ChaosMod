@@ -35,7 +35,6 @@ namespace LCChaosMod
             ChaosSettings.Init(Config);
             Loc.SetLang(ChaosSettings.Language.Value);
             _harmony.PatchAll();
-            UI.MainMenuInjector.Init();
             Patches.RoundLifecycle.Init();
 
             Log.LogInfo($"{MyPluginInfo.PLUGIN_NAME} v{MyPluginInfo.PLUGIN_VERSION} loaded!");
