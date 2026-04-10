@@ -61,12 +61,22 @@ namespace LCChaosMod.Cogs.Firefly
 
         // Видалити всі firefly вогники в кінці раунду.
         public static void Cleanup()
-        {
-            foreach (var marker in _active)
-                if (marker != null) Object.Destroy(marker.gameObject);
-            _active.Clear();
+{
+    _active.Clear(); // Чистимо список
 
-            Plugin.Log.LogInfo("[Firefly] Lights cleaned up.");
+    var allPlayers = StartOfRound.Instance?.allPlayerScripts;
+    if (allPlayers == null) return;
+
+    foreach (var p in allPlayers)
+    {
+        // Шукаємо всі об'єкти з нашим скриптом-маркером на гравцеві
+        var lights = p.GetComponentsInChildren<FireflyLight>();
+        foreach (var l in lights)
+        {
+            Object.Destroy(l.gameObject);
         }
+    }
+    Plugin.Log.LogInfo("[Firefly] Deep cleanup finished.");
+}
     }
 }

@@ -14,12 +14,10 @@ namespace LCChaosMod.Patches
             // Раунд закінчився — прибираємо glow і скидаємо
             if (StartOfRound.Instance != null && StartOfRound.Instance.inShipPhase)
             {
-                if (_triggered)
-                {
+
                     _triggered = false;
                     FireflyTracker.Cleanup();
-                }
-                return;
+                    return;
             }
 
             if (_triggered) return;
