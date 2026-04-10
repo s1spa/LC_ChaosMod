@@ -127,7 +127,7 @@ namespace LCChaosMod.UI
             winVlg.childForceExpandHeight = false;
 
             // Заголовок
-            UIBuilder.CreateText(win.transform, "> LC CHAOS EVENTS ", _gameFont!, 36, new Color(0.2f, 0.9f, 0.2f), TextAnchor.MiddleCenter, 50);
+            UIBuilder.CreateText(win.transform, $"> LC CHAOS EVENTS v{MyPluginInfo.PLUGIN_VERSION}", _gameFont!, 36, new Color(0.2f, 0.9f, 0.2f), TextAnchor.MiddleCenter, 50);
 
             // 4. Створюємо ScrollView для налаштувань
             _contentPanel = UIBuilder.CreateScrollView(win.transform, new Vector2(840, 520));

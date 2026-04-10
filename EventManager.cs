@@ -69,6 +69,14 @@ namespace LCChaosMod
                     continue;
                 }
 
+                // Не запускаємо івенти на Company Building
+                var level = StartOfRound.Instance.currentLevel;
+                if (level != null && level.sceneName == "CompanyBuilding")
+                {
+                    yield return new WaitForSeconds(5f);
+                    continue;
+                }
+
                 var next = PickEvent();
                 if (next == null)
                 {
